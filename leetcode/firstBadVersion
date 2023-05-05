@@ -1,0 +1,53 @@
+package main
+
+import "fmt"
+
+/**
+ * Forward declaration of isBadVersion API.
+ * @param   version   your guess about first bad version
+ * @return 	 	      true if current version is bad
+ *			          false if current version is good
+ * func isBadVersion(version int) bool;
+ */
+
+func firstBadVersion(n int) int {
+	lptr := 0
+	rptr := n
+	// to minimize search we can use a modified bin search algorithm
+	for lptr <= rptr {
+		mid := (lptr + rptr) / 2
+		if isBadVersion(mid) {
+			//bad version found
+			// check two cases
+			if isBadVersion(mid - 1) {
+				// if there is a bad version before this
+				//Then move rptr to point to this
+				rptr = mid - 1
+			} else {
+				//case where !badVer before
+				//Found first bad version
+				return mid
+			}
+		} else {
+			lptr = mid + 1
+		}
+	}
+	// if we get here then the first case must be the problem
+	return 1
+}
+
+// testing script
+func isBadVersion(mid int) bool {
+	if mid >= 2 {
+		return true
+	}
+	return false
+
+}
+
+func main() {
+
+	fmt.Print(firstBadVersion(2))
+	//driver code
+
+}
