@@ -1,0 +1,27 @@
+func sortedSquares(nums []int) []int {
+	// Presorted therefore if first elem is gt zero we do not need to sort
+	if nums[0] > 0 {
+		for idx, num := range nums {
+			nums[idx] = num * num
+		}
+		return nums
+	}
+	// Case is there is an odd so we can do a O(n) soln with two ptr
+	// zero is the inflection point
+	res := make([]int, len(nums), len(nums))
+	lptr, rptr := 0, (len(nums) - 1)
+	for i := 0; lptr < rptr; i++ {
+		// if left > right
+		if nums[lptr]*nums[lptr] > nums[rptr]*nums[rptr] {
+			res[len(nums)-1-i] = nums[lptr] * nums[lptr]
+			lptr++
+		} else {
+			// right is less or equal left
+			res[len(nums)-1-i] = nums[rptr] * nums[rptr]
+			rptr--
+
+		}
+	}
+	res[0] = nums[rptr] * nums[rptr]
+	return res
+}
