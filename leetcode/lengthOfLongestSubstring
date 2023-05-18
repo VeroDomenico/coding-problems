@@ -1,0 +1,22 @@
+
+func lengthOfLongestSubstring(s string) int {
+
+	rp, lp, curMax := 0, 0, 0
+	hmap := make(map[string]int)
+	for rp < len(s) {
+		//Some logic
+		// each encounter add 1 to the hashmap
+		hmap[string(s[rp])]++
+		
+		// move lp up and remove the lp pointer until rp is == 1
+		for hmap[string(s[rp])] > 1 {
+			hmap[string(s[lp])]--
+			lp++
+		}
+		if curMax <= rp-lp+1 {
+			curMax = rp - lp + 1
+		}
+		rp++
+	}
+	return curMax
+}
